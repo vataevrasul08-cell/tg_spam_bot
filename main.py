@@ -16,7 +16,7 @@ dp = Dispatcher(bot)
 active_users = {}
 
 # ====== Сообщения от пользователей ======
-@dp.message_handler()
+@dp.message_handler(lambda message: message.from_user.id != ADMIN_ID)
 async def forward_to_admin(message: types.Message):
     user_id = message.from_user.id
     username = message.from_user.username or message.from_user.first_name
@@ -70,3 +70,4 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.create_task(cleanup_old_dialogs())
     executor.start_polling(dp, skip_updates=True)
+
